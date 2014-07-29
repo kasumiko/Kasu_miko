@@ -13,6 +13,7 @@ Streamclient.userstream do |status|
 unless contents =~ /RT/
 #namechange
 if contents =~ /@Kasu_miko update_name/
+ unless contents =~ /(ゆいおぐら).+(連)(ガチャ)/
 name = contents.gsub(/@Kasu_miko update_name|\s|　/,"")
   if name.length > 20 then
    name = name[0,20]
@@ -26,6 +27,7 @@ name = contents.gsub(/@Kasu_miko update_name|\s|　/,"")
   end
   @client.favorite(status)
  end
+end
 
 if contents =~ /@Kasu_miko update_profile/
   description = contents.gsub(/@Kasu_miko update_profile/,"")
