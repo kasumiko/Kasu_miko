@@ -14,13 +14,11 @@ unless contents =~ /RT/
 #namechange
 if contents =~ /@Kasu_miko update_name/
  unless contents =~ /(ゆいおぐら).+(連)(ガチャ)/
-name = contents.gsub(/@Kasu_miko update_name|\s|　/,"")
+name = contents.sub(/@Kasu_miko update_name|\s|　/,"")
   if name.length > 20 then
    name = name[0,20]
    @client.update_profile(name: "#{name}")
    @client.update("#{name}に改名しました")
-  elsif name.length == 1 then
-   @client.update("#{"@" + username} 短すぎない？", :in_reply_to_status_id => id)
   else
    @client.update_profile(name: "#{name}")
    @client.update("#{name}に改名しました")
@@ -30,7 +28,7 @@ name = contents.gsub(/@Kasu_miko update_name|\s|　/,"")
 end
 
 if contents =~ /@Kasu_miko update_profile/
-  description = contents.gsub(/@Kasu_miko update_profile/,"")
+  description = contents.sub(/@Kasu_miko update_profile/,"")
   if description.bytesize > 160 then
    description = description[0,80]
    @client.update_profile(description: "#{description}")
@@ -43,7 +41,7 @@ if contents =~ /@Kasu_miko update_profile/
 end
 
 if contents =~ /@Kasu_miko update_location/
-  location = contents.gsub(/@Kasu_miko update_location/,"")
+  location = contents.sub(/@Kasu_miko update_location/,"")
   if location.length > 30 then
    location = name[0,30]
    @client.update_profile(locaton: "#{location}")
