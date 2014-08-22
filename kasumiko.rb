@@ -2,6 +2,7 @@
 require 'twitter'
 require 'tweetstream'
 require './userconf.rb'
+require 'open-uri'
 
 Streamclient = TweetStream::Client.new
 Streamclient.userstream do |status|
@@ -14,7 +15,7 @@ unless contents =~ /RT/
 #namechange
 if contents =~ /@Kasu_miko update_name/
  unless contents =~ /(ゆいおぐら).+(連)(ガチャ)/
-name = contents.sub(/@Kasu_miko update_name|\s|　/,"")
+name = contents.gsub(/@Kasu_miko update_name|\s|　/,"")
   if name.length > 20 then
    name = name[0,20]
    @client.update_profile(name: "#{name}")
@@ -28,7 +29,7 @@ name = contents.sub(/@Kasu_miko update_name|\s|　/,"")
 end
 
 if contents =~ /@Kasu_miko update_profile/
-  description = contents.sub(/@Kasu_miko update_profile/,"")
+  description = contents.sub(/@Kasu_miko update_profile /,"")
   if description.bytesize > 160 then
    description = description[0,80]
    @client.update_profile(description: "#{description}")
@@ -66,5 +67,14 @@ if contents =~ /@Kasu_miko update_icon/
   @client.favorite(status)
 end
 =end
+
+if contents =~ /@Kasu_miko update_icon/
+ path = status.media.first.media_url.to_s
+ open(path) do |image|
+  @client.update_profile_image(image)
+  @client.update("アイコンが変わったよ#{"！"*rand(10)}")
+ end
+end
+
 end
 end
